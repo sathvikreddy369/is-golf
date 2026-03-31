@@ -10,6 +10,7 @@ const envSchema = z.object({
   JWT_SECRET: z.string().min(16),
   JWT_EXPIRES_IN: z.string().default('1d'),
   CLIENT_URL: z.string().url(),
+  CLIENT_URLS: z.string().optional(),
   RAZORPAY_KEY_ID: z.string().min(1),
   RAZORPAY_KEY_SECRET: z.string().min(1),
   RAZORPAY_WEBHOOK_SECRET: z.string().min(1),
@@ -26,5 +27,13 @@ export const env = {
   ...parsed.data,
   PORT: Number(parsed.data.PORT),
   DRAW_POOL_PERCENTAGE: Number(parsed.data.DRAW_POOL_PERCENTAGE),
-  CHARITY_MIN_PERCENTAGE: Number(parsed.data.CHARITY_MIN_PERCENTAGE)
+  CHARITY_MIN_PERCENTAGE: Number(parsed.data.CHARITY_MIN_PERCENTAGE),
+  ALLOWED_ORIGINS: [
+    parsed.data.CLIENT_URL,
+    ...(parsed.data.CLIENT_URLS
+      ? parsed.data.CLIENT_URLS.split(',').map((origin) => origin.trim()).filter(Boolean)
+      : []),
+    'http://localhost:3000',
+    'http://localhost:3001'
+  ]
 };

@@ -15,9 +15,22 @@ import { sanitizeRequest } from './middleware/sanitize.middleware';
 import { errorHandler, notFoundHandler } from './middleware/errorHandler';
 
 const app = express();
+const allowedOrigins = new Set(env.ALLOWED_ORIGINS);
 
 app.use(helmet());
-app.use(cors({ origin: env.CLIENT_URL }));
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      // Allow non-browser requests (curl, Postman) and configured browser origins.
+      if (!origin || allowedOrigins.has(origin)) {
+        callback(null, true);
+        return;
+      }
+
+      callback(new Error(`Origin ${origin} is not allowed by CORS`));
+    }
+  })
+);
 app.use(express.json());
 app.use(morgan('dev'));
 app.use(apiLimiter);
