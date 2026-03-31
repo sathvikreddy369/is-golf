@@ -11,9 +11,10 @@ const envSchema = z.object({
   JWT_EXPIRES_IN: z.string().default('1d'),
   CLIENT_URL: z.string().url(),
   CLIENT_URLS: z.string().optional(),
-  RAZORPAY_KEY_ID: z.string().min(1),
-  RAZORPAY_KEY_SECRET: z.string().min(1),
-  RAZORPAY_WEBHOOK_SECRET: z.string().min(1),
+  // Optional for now: keep backend booting even when payment gateway is not configured.
+  RAZORPAY_KEY_ID: z.string().optional().default(''),
+  RAZORPAY_KEY_SECRET: z.string().optional().default(''),
+  RAZORPAY_WEBHOOK_SECRET: z.string().optional().default(''),
   DRAW_POOL_PERCENTAGE: z.string().default('0.5'),
   CHARITY_MIN_PERCENTAGE: z.string().default('0.1')
 });
