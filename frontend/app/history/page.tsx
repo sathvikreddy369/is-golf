@@ -18,18 +18,46 @@ interface HistoryState {
 
 export default function HistoryPage() {
   const [history, setHistory] = useState<HistoryState>({ scores: [], payments: [] });
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState('');
 
   useEffect(() => {
-    userApi.history().then((res) => {
-      setHistory({
-        scores: res.data.scores ?? [],
-        payments: res.data.payments ?? []
-      });
-    });
+    userApi
+      .history()
+      .then((res) => {
+        setHistory({
+          scores: res.data.scores ?? [],
+          payments: res.data.payments ?? []
+        });
+        setError('');
+      })
+      .catch(() => setError('Unable to load activity history right now.'))
+      .finally(() => setIsLoading(false));
   }, []);
+
+  const totalContributed = history.payments.reduce(
+    (acc, payment) => acc + Number(payment.charityContribution),
+    0
+  );
 
   return (
     <MemberLayout title="Activity History" subtitle="Review your score timeline and payment records.">
+      {isLoading ? <p className="rounded-xl bg-brand-50 p-3 text-sm text-brand-700">Loading activity history...</p> : null}
+      {error ? <p className="rounded-xl bg-red-50 p-3 text-sm text-red-700">{error}</p> : null}
+      <section className="grid gap-4 md:grid-cols-3">
+        <article className="card">
+          <p className="text-xs font-semibold uppercase tracking-[0.1em] text-ink/60">Scores logged</p>
+          <p className="mt-2 font-display text-3xl font-extrabold text-brand-700">{history.scores.length}</p>
+        </article>
+        <article className="card">
+          <p className="text-xs font-semibold uppercase tracking-[0.1em] text-ink/60">Payments made</p>
+          <p className="mt-2 font-display text-3xl font-extrabold text-brand-700">{history.payments.length}</p>
+        </article>
+        <article className="card">
+          <p className="text-xs font-semibold uppercase tracking-[0.1em] text-ink/60">Total charity contribution</p>
+          <p className="mt-2 font-display text-3xl font-extrabold text-brand-700">INR {totalContributed.toFixed(2)}</p>
+        </article>
+      </section>
       <section className="grid gap-6 md:grid-cols-2">
         <article className="card space-y-3">
           <h2 className="font-display text-2xl font-bold">Score timeline</h2>

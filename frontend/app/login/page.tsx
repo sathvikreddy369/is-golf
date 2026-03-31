@@ -11,6 +11,7 @@ import { LoginInput, loginSchema } from '@/lib/validations/auth';
 
 export default function LoginPage() {
   const router = useRouter();
+  const [serverError, setServerError] = useState('');
   const {
     register,
     handleSubmit,
@@ -20,16 +21,23 @@ export default function LoginPage() {
   });
 
   const onSubmit = async (values: LoginInput) => {
-    const response = await authApi.login(values);
-    tokenStorage.set(response.data.token);
-    router.push('/dashboard');
+    setServerError('');
+    try {
+      const response = await authApi.login(values);
+      tokenStorage.set(response.data.token);
+      router.push('/dashboard');
+    } catch {
+      setServerError('Login failed. Please verify your credentials and try again.');
+    }
   };
 
   return (
     <main className="mx-auto flex min-h-screen max-w-md items-center px-6">
       <div className="card w-full">
         <h1 className="font-display text-3xl font-extrabold">Welcome back</h1>
+        <p className="mt-2 text-sm text-ink/70">Continue your contribution cycle and track your latest draw eligibility.</p>
         <form className="mt-6 space-y-4" onSubmit={handleSubmit(onSubmit)}>
+          {serverError ? <p className="rounded-xl bg-red-50 p-3 text-sm text-red-700">{serverError}</p> : null}
           <div>
             <input className="w-full rounded-xl border border-brand-100 px-4 py-3" placeholder="Email" {...register('email')} />
             <p className="mt-1 text-xs text-coral">{errors.email?.message}</p>

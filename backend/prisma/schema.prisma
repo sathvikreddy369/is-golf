@@ -63,6 +63,7 @@ model User {
   fullName        String
   role            Role           @default(USER)
   isActive        Boolean        @default(true)
+  emailNotifications Boolean      @default(true)
   charityId       String?
   createdAt       DateTime       @default(now())
   updatedAt       DateTime       @updatedAt
@@ -128,9 +129,15 @@ model DrawResult {
 model Charity {
   id          String   @id @default(cuid())
   name        String   @unique
+  category    String?
   description String
   image       String
   website     String
+  featured    Boolean  @default(false)
+  location    String?
+  upcomingEventTitle String?
+  upcomingEventDate  DateTime?
+  impactMetric String?
   active      Boolean  @default(true)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt

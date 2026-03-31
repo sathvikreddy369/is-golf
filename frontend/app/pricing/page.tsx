@@ -1,4 +1,5 @@
 import { Navbar } from '@/components/shared/Navbar';
+import Link from 'next/link';
 
 const plans = [
   {
@@ -31,6 +32,28 @@ export default function PricingPage() {
               <p className="mt-2 text-sm text-ink/75">{plan.description}</p>
             </article>
           ))}
+        </div>
+        <section className="mt-10 grid gap-4 md:grid-cols-3">
+          <article className="card">
+            <p className="text-xs font-semibold uppercase tracking-[0.1em] text-brand-700">Charity contribution</p>
+            <p className="mt-2 text-sm text-ink/75">At least 10% from every successful subscription is routed to charity.</p>
+          </article>
+          <article className="card">
+            <p className="text-xs font-semibold uppercase tracking-[0.1em] text-brand-700">Prize pool</p>
+            <p className="mt-2 text-sm text-ink/75">A fixed split contributes to monthly draw tiers for active participants.</p>
+          </article>
+          <article className="card">
+            <p className="text-xs font-semibold uppercase tracking-[0.1em] text-brand-700">Audit trail</p>
+            <p className="mt-2 text-sm text-ink/75">Draw results, winner verification, and payout states remain trackable.</p>
+          </article>
+        </section>
+        <div className="mt-8 flex flex-wrap gap-3">
+          <Link href="/signup" className="btn-primary">
+            Start subscription
+          </Link>
+          <Link href="/how-it-works" className="btn-secondary">
+            Understand flow
+          </Link>
         </div>
       </section>
     </main>

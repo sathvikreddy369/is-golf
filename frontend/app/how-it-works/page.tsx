@@ -25,6 +25,26 @@ export default function HowItWorksPage() {
             </div>
           ))}
         </div>
+        <div className="mt-10 grid gap-4 md:grid-cols-2">
+          <article className="card">
+            <h2 className="font-display text-2xl font-bold">How the game stays fair</h2>
+            <ul className="mt-3 space-y-2 text-sm text-ink/75">
+              <li>Only latest 5 scores are retained for draw matching.</li>
+              <li>Draws can be simulated before publishing.</li>
+              <li>Tiered prize logic is fixed and transparent.</li>
+              <li>Winner proof and payout states are tracked.</li>
+            </ul>
+          </article>
+          <article className="card">
+            <h2 className="font-display text-2xl font-bold">How impact is maintained</h2>
+            <ul className="mt-3 space-y-2 text-sm text-ink/75">
+              <li>Charity allocation is applied on successful subscriptions.</li>
+              <li>Members can choose and update preferred charities.</li>
+              <li>Admin reports summarize contributions and draw outcomes.</li>
+              <li>Monthly cadence helps charities plan predictable work.</li>
+            </ul>
+          </article>
+        </div>
       </section>
     </main>
   );

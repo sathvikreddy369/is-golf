@@ -10,15 +10,16 @@ const links = [
   { href: '/history', label: 'History' },
   { href: '/my-winnings', label: 'My Winnings' },
   { href: '/subscription', label: 'Subscription Plan' },
-  { href: '/settings', label: 'Settings' }
+  { href: '/profile', label: 'Profile' }
 ];
 
 export function DashboardSidebar() {
   const pathname = usePathname();
 
   return (
-    <aside className="card h-fit">
+    <aside className="card h-fit md:sticky md:top-24">
       <h3 className="font-display text-lg font-bold">Subscriber panel</h3>
+      <p className="mt-1 text-xs text-ink/60">Manage account, scores, and draw participation.</p>
       <div className="mt-4 flex flex-col gap-2">
         {links.map((link) => {
           const active = pathname === link.href;

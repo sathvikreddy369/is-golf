@@ -12,6 +12,7 @@ export const getProfile = async (userId: string) => {
       role: true,
       charityId: true,
       isActive: true,
+      emailNotifications: true,
       charity: true,
       subscription: true
     }
@@ -26,13 +27,14 @@ export const getProfile = async (userId: string) => {
 
 export const updateProfile = async (
   userId: string,
-  payload: { fullName?: string; charityId?: string }
+  payload: { fullName?: string; charityId?: string; emailNotifications?: boolean }
 ) => {
   return prisma.user.update({
     where: { id: userId },
     data: {
       fullName: payload.fullName,
-      charityId: payload.charityId
+      charityId: payload.charityId,
+      emailNotifications: payload.emailNotifications
     },
     select: {
       id: true,
@@ -40,6 +42,7 @@ export const updateProfile = async (
       email: true,
       role: true,
       charityId: true,
+      emailNotifications: true,
       charity: true
     }
   });

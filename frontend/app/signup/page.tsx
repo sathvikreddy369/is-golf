@@ -34,6 +34,7 @@ export default function SignupPage() {
     <main className="mx-auto flex min-h-screen max-w-md items-center px-6">
       <div className="card w-full">
         <h1 className="font-display text-3xl font-extrabold">Start your impact</h1>
+        <p className="mt-2 text-sm text-ink/70">Create your account to choose a charity, enter scores, and join monthly draw cycles.</p>
         <form className="mt-6 space-y-4" onSubmit={handleSubmit(onSubmit)}>
           {serverError ? <p className="rounded-xl bg-red-50 p-3 text-sm text-red-700">{serverError}</p> : null}
           <div>
@@ -52,6 +53,9 @@ export default function SignupPage() {
             {isSubmitting ? 'Creating account...' : 'Sign up'}
           </button>
         </form>
+        <div className="mt-4 rounded-xl border border-brand-100 bg-brand-50 p-3 text-xs text-brand-800">
+          Minimum 10% of successful subscriptions support your selected charity.
+        </div>
         <p className="mt-4 text-sm text-ink/70">
           Already have an account? <Link href="/login" className="font-semibold text-brand-700">Login</Link>
         </p>
