@@ -1,0 +1,11 @@
+process.env.DATABASE_URL = process.env.DATABASE_URL ?? 'postgresql://postgres:password@localhost:5432/golf_charity';
+process.env.PORT = process.env.PORT ?? '5001';
+process.env.NODE_ENV = process.env.NODE_ENV ?? 'test';
+process.env.JWT_SECRET = process.env.JWT_SECRET ?? 'test_secret_1234567890';
+process.env.JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN ?? '1d';
+process.env.CLIENT_URL = process.env.CLIENT_URL ?? 'http://localhost:3000';
+process.env.RAZORPAY_KEY_ID = process.env.RAZORPAY_KEY_ID ?? 'rzp_test_xxxxx';
+process.env.RAZORPAY_KEY_SECRET = process.env.RAZORPAY_KEY_SECRET ?? 'test_secret';
+process.env.RAZORPAY_WEBHOOK_SECRET = process.env.RAZORPAY_WEBHOOK_SECRET ?? 'test_webhook_secret';
+process.env.DRAW_POOL_PERCENTAGE = process.env.DRAW_POOL_PERCENTAGE ?? '0.5';
+process.env.CHARITY_MIN_PERCENTAGE = process.env.CHARITY_MIN_PERCENTAGE ?? '0.1';
