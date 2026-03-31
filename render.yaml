@@ -1,0 +1,33 @@
+services:
+  - type: web
+    name: is-prd-fs1-backend
+    runtime: node
+    rootDir: backend
+    buildCommand: npm install && npm run build && npx prisma migrate deploy
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: JWT_EXPIRES_IN
+        value: 7d
+      - key: PORT
+        value: 3000
+      - key: CLIENT_URL
+        value: https://is-prd-fs1.vercel.app
+      - key: CLIENT_URLS
+        value: http://localhost:3000,http://localhost:3001
+      - key: RAZORPAY_KEY_ID
+        sync: false
+      - key: RAZORPAY_KEY_SECRET
+        sync: false
+      - key: RAZORPAY_WEBHOOK_SECRET
+        sync: false
+      - key: DRAW_POOL_PERCENTAGE
+        value: 0.5
+      - key: CHARITY_MIN_PERCENTAGE
+        value: 0.1
+    autoDeploy: true
