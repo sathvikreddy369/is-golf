@@ -15,19 +15,26 @@ import { sanitizeRequest } from './middleware/sanitize.middleware';
 import { errorHandler, notFoundHandler } from './middleware/errorHandler';
 
 const app = express();
-const allowedOrigins = new Set(env.ALLOWED_ORIGINS);
+const normalizeOrigin = (origin: string) => origin.trim().replace(/\/+$/, '');
+const allowedOrigins = new Set(env.ALLOWED_ORIGINS.map(normalizeOrigin));
 
 app.use(helmet());
 app.use(
   cors({
     origin: (origin, callback) => {
       // Allow non-browser requests (curl, Postman) and configured browser origins.
-      if (!origin || allowedOrigins.has(origin)) {
+      if (!origin) {
         callback(null, true);
         return;
       }
 
-      callback(new Error(`Origin ${origin} is not allowed by CORS`));
+      if (allowedOrigins.has(normalizeOrigin(origin))) {
+        callback(null, true);
+        return;
+      }
+
+      // Return CORS-denied without throwing a server error.
+      callback(null, false);
     }
   })
 );
@@ -37,6 +44,10 @@ app.use(apiLimiter);
 app.use(sanitizeRequest);
 
 app.get('/health', (_req, res) => {
+  res.json({ status: 'ok' });
+});
+
+app.get('/api/health', (_req, res) => {
   res.json({ status: 'ok' });
 });
 

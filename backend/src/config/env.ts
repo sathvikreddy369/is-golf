@@ -11,6 +11,7 @@ const envSchema = z.object({
   JWT_EXPIRES_IN: z.string().default('1d'),
   CLIENT_URL: z.string().url(),
   CLIENT_URLS: z.string().optional(),
+  CORS_ORIGIN: z.string().url().optional(),
   // Optional for now: keep backend booting even when payment gateway is not configured.
   RAZORPAY_KEY_ID: z.string().optional().default(''),
   RAZORPAY_KEY_SECRET: z.string().optional().default(''),
@@ -29,10 +30,16 @@ export const env = {
   PORT: Number(parsed.data.PORT),
   DRAW_POOL_PERCENTAGE: Number(parsed.data.DRAW_POOL_PERCENTAGE),
   CHARITY_MIN_PERCENTAGE: Number(parsed.data.CHARITY_MIN_PERCENTAGE),
+  // Normalize to avoid false mismatches when env values include trailing slashes.
+  normalizeOrigin: (origin: string) => origin.trim().replace(/\/+$/, ''),
   ALLOWED_ORIGINS: [
-    parsed.data.CLIENT_URL,
+    parsed.data.CLIENT_URL.trim().replace(/\/+$/, ''),
+    ...(parsed.data.CORS_ORIGIN ? [parsed.data.CORS_ORIGIN.trim().replace(/\/+$/, '')] : []),
     ...(parsed.data.CLIENT_URLS
-      ? parsed.data.CLIENT_URLS.split(',').map((origin) => origin.trim()).filter(Boolean)
+      ? parsed.data.CLIENT_URLS
+          .split(',')
+          .map((origin) => origin.trim().replace(/\/+$/, ''))
+          .filter(Boolean)
       : []),
     'http://localhost:3000',
     'http://localhost:3001'
